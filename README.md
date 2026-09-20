@@ -1,4 +1,12 @@
 ﻿# Desktop Dev Cat
+<p align="center">
+  <img src="./Companion%201.png" alt="Desktop Dev Cat companion" width="24%" />
+  <img src="./Companion%202.png" alt="Desktop Dev Cat interaction" width="24%" />
+  <img src="./Companion%203.png" alt="Desktop Dev Cat interface" width="24%" />
+  <img src="./Companion%204.png" alt="Desktop Dev Cat feature" width="24%" />
+</p>
+
+> A friendly desktop companion cat for developers, with reminders, desktop interactions, and optional local AI through Ollama.
 
 Desktop Dev Cat is a Windows desktop companion built with Electron, React, TypeScript, and PixiJS. A small animated cat stays above the desktop, reacts to interaction, provides reminders, and is being extended with a privacy-first local AI companion powered by Ollama.
 
@@ -115,4 +123,6 @@ The organized documentation index is at [docs/organized/README.md](./docs/organi
 
 ## License and project status
 
-This repository is currently private and under active development. Licensing and release terms have not yet been finalized.
+This repository is under active development and is released under the [MIT License](./LICENSE).
+
+
