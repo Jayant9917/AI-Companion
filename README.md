@@ -1,214 +1,118 @@
-# Desktop Dev Cat
+﻿# Desktop Dev Cat
 
-Desktop Dev Cat is a desktop-first pet app for Windows built with Electron, React, TypeScript, and PixiJS.
+Desktop Dev Cat is a Windows desktop companion built with Electron, React, TypeScript, and PixiJS. A small animated cat stays above the desktop, reacts to interaction, provides reminders, and is being extended with a privacy-first local AI companion powered by Ollama.
 
-The goal of the MVP is to create a small cat that lives above the desktop, feels expressive, and has strong interaction basics before we add advanced developer-aware features.
+## What the project does
 
-## Current Status
+- Runs as a transparent, frameless, always-on-top desktop window.
+- Renders an interactive cat with sprite animations and motion effects.
+- Supports dragging, stretch/release behavior, idle movement, happy reactions, and edge effects.
+- Provides reminders, popup notifications, and a hidden reminder panel.
+- Includes tray-style controls for showing, hiding, pausing, resetting, focus mode, startup, and logs.
+- Stores application settings locally with Electron Store.
+- Detects developer activity signals from terminal/build workflows.
+- Includes a local AI provider abstraction with Ollama support for future explanations, chat, and developer assistance.
 
-The project is in Phase 1 and has moved past the initial scaffold.
+The application is designed for Windows first. It is a desktop application, not a normal browser website.
 
-What already works:
+## Current status
 
-- Electron app scaffold
-- React and TypeScript setup
-- PixiJS renderer bootstrapped
-- transparent frameless always-on-top desktop window
-- cat renderer moved into dedicated `src/cat` architecture
-- downloaded frame-based cat asset pack integrated into the asset pipeline
-- restored stable drag interaction path
-- improved long-drag tracking from the Electron main process
-- built-in stretch and coffee reminder popups
-- custom reminder scheduling stored locally
-- triple-tap happy reaction with jump mood and smile marker
-- edge-hit smoke burst effect from the CraftPix smoke pack
-- reminder popup smoke poof when a nudge appears
-- softer idle breathing and release-settle motion polish
-- hidden reminder launcher unlocked by tapping the cat 8 times quickly
-- in-app settings panel for tray-style controls
-- tray controls for show, hide, pause, reset, focus mode, startup, and logs
-- persistent app settings via Electron Store
-- file logging in the Electron main process
-- build and lint validation passing
+The project is in active Phase 1/Phase 2 foundation development. The desktop shell, cat renderer, interaction system, reminders, settings, local persistence, logging, and AI provider foundation are present. Windows packaging and continued UI/animation polish are still in progress.
 
-What comes next:
+## Technology stack
 
-- refine the imported cat asset style or swap to a closer Comnyang-like pack later
-- improve motion quality without hurting drag stability
-- continue polishing the hidden reminder mini-panel
-- polish the tray-backed settings workflow
-- packaging to Windows `.exe`
+- Electron — desktop window, tray, IPC, and main process
+- React — UI structure and control panels
+- TypeScript — application and shared types
+- PixiJS — cat and effects rendering
+- Zustand — renderer state management
+- Electron Store — local settings persistence
+- Vite — renderer development and bundling
+- Vitest — tests
+- Ollama — optional local AI runtime
 
-## Stack
-
-- Electron
-- React
-- TypeScript
-- PixiJS
-- Zustand
-- Electron Store
-- Pino
-- Vite
-
-## Project Structure
+## Repository layout
 
 ```text
 src/
-  cat/
-  main/
-  window/
-  ipc/
-  renderer/
-    components/
-    hooks/
-    stores/
-    events/
-    utils/
-    animations/
-    sprites/
-  shared/
-  assets/
-public/
-docs/
+  ai/          AI provider abstraction, Ollama integration, redaction, memory
+  cat/         cat state machine, renderer, assets, animation, motion
+  main/        Electron main process, preload, IPC, tray, settings
+  renderer/    React entry point, application UI, styles
+  shared/      shared constants, settings, developer-signal types
+  assets/      cat sprites, effects, and reusable sprite parts
+scripts/       development launcher and terminal activity tracking
+public/        packaging resources such as the tray icon
+tests/         Vitest unit tests
+docs/organized/ project requirements, architecture, plans, assets, and handoff notes
 ```
 
-The new cat architecture is now split into:
+## Requirements
 
-- `src/cat/CatRenderer.tsx`
-- `src/cat/CatStateMachine.ts`
-- `src/cat/CatAnimationController.ts`
-- `src/cat/CatAssetLoader.ts`
-- `src/cat/CatEvents.ts`
-- `src/cat/CatTypes.ts`
+- Windows 10 or Windows 11
+- Node.js 20 or newer recommended
+- npm 10 or newer recommended
+- Git
+- Ollama only if you want to use the local AI features
 
-## Getting Started
-
-Install dependencies:
+## Install and run
 
 ```bash
+git clone https://github.com/Jayant9917/AI-Companion.git
+cd AI-Companion
 npm install
-```
-
-Run the app in development:
-
-```bash
 npm run dev
 ```
 
-This starts the Vite renderer, watches the Electron TypeScript output, and relaunches Electron automatically when the compiled main-process files change.
+`npm run dev` starts the Vite renderer, TypeScript watch compilation, and Electron together. Do not open `index.html` directly with `file:///`; use the development command or a packaged Electron build.
 
-Build the app:
-
-```bash
-npm run build
-```
-
-Lint the project:
+## Validation and builds
 
 ```bash
-npm run lint
+npm test          # run unit tests
+npm run lint      # run ESLint
+npm run build     # build renderer and Electron files
+npm run format    # format source files
 ```
 
-## Important Note
+Windows packaging commands:
 
-Do not open the root `index.html` directly in the browser with `file:///`.
+```bash
+npm run package:win             # Windows installer build
+npm run package:win:portable    # portable build
+npm run package:win:installer   # NSIS installer build
+```
 
-This app is meant to run through:
+Build output is generated into ignored directories such as `dist/` and `dist-electron/`.
 
-- the Vite dev server during development
-- Electron when packaged or launched normally
+## Ollama and local AI
 
-Opening the raw HTML file directly will break module resolution for the renderer entry.
+The application uses Ollama at `http://localhost:11434` by default and currently defaults to the model `llama3.2:3b`. Ollama is optional for the base cat, reminders, rendering, and settings features.
+
+Follow the complete setup guide here:
+
+- [Local AI and Ollama setup](./docs/organized/05-operations-handoff/OLLAMA-SETUP.md)
+
+The AI integration is local-first: prompts are sent to the Ollama service running on the user's own computer. Do not assume that Ollama is available; the application handles provider unavailability and request timeouts.
+
+## Interaction shortcuts
+
+- Tap the cat three times quickly for a happy reaction.
+- Tap the cat eight times quickly to reveal the reminder launcher.
+- Drag the cat to interact with it and trigger stretch/release motion.
 
 ## Documentation
 
-Planning and project notes:
+The organized documentation index is at [docs/organized/README.md](./docs/organized/README.md). Start with [PROJECT-CONTEXT.md](./docs/organized/PROJECT-CONTEXT.md), then read the requirements and architecture documents.
 
-- [PLAN.md](./PLAN.md)
-- [PHASE-0.md](./PHASE-0.md)
-- [PHASE-0-CHECKLIST.md](./PHASE-0-CHECKLIST.md)
-- [ARCHITECTURE-DECISIONS.md](./ARCHITECTURE-DECISIONS.md)
-- [ASSET-AND-ANIMATION-PREP.md](./ASSET-AND-ANIMATION-PREP.md)
-- [docs/IMPLEMENTATION-LOG.md](./docs/IMPLEMENTATION-LOG.md)
-- [docs/PHASE-1-IMPLEMENTATION-AND-EXECUTION-PLAN.md](./docs/PHASE-1-IMPLEMENTATION-AND-EXECUTION-PLAN.md)
-- [docs/FUTURE-SUGGESTIONS.md](./docs/FUTURE-SUGGESTIONS.md)
-- [docs/SPRITE-DIRECTION.md](./docs/SPRITE-DIRECTION.md)
-- [docs/CAT-ASSET-PLAN.md](./docs/CAT-ASSET-PLAN.md)
-- [docs/CRAFTPIX-ASSET-REVIEW.md](./docs/CRAFTPIX-ASSET-REVIEW.md)
-- [docs/deployment-phase/README.md](./docs/deployment-phase/README.md)
-- [docs/deployment-phase/CONTROL-PANEL.md](./docs/deployment-phase/CONTROL-PANEL.md)
-- [src/assets/sprites/cat/meta/cat-sprite-manifest.json](./src/assets/sprites/cat/meta/cat-sprite-manifest.json)
+## Contributing
 
-## Product Direction
+1. Create a branch for your change.
+2. Keep renderer, main-process, and preload responsibilities separated.
+3. Run `npm test`, `npm run lint`, and `npm run build` before committing.
+4. Do not commit `node_modules`, build output, local runtime data, secrets, or `.env` files.
+5. Update the relevant document in `docs/organized/` when behavior or architecture changes.
 
-This is a desktop-first product, not a normal web app.
+## License and project status
 
-The MVP is intentionally focused on:
-
-- cat rendering
-- drag interaction
-- stretch behavior
-- animation feel
-- settings and tray support
-- Windows packaging
-
-These are intentionally postponed until later phases:
-
-- Git reactions
-- terminal reactions
-- VS Code awareness
-- AI features
-- sound
-- cloud sync
-
-## Reminder Controls
-
-The reminder controls are intentionally hidden so the UI does not sit on top of the cat all the time.
-
-Current access flow:
-
-- click or tap the cat 8 times quickly
-- a small corner launcher appears
-- open the reminder panel only when you need it
-
-Quick pet interaction:
-
-- tap the cat 3 times quickly to trigger a happy reaction
-
-Inside the panel you can:
-
-- add your own reminder time and message
-- enable or disable saved reminders
-- delete reminders
-- test popup, sparkle, and steam reactions manually
-
-## Visual Direction
-
-The project is now moving toward a sprite-based visual style instead of a fully code-drawn cat.
-
-The current sprite direction is based on a local reference sheet:
-
-- `1e9d280c-518d-400e-ae67-b8e2c36eb352.png`
-
-That reference shows the style we want:
-
-- black pixel-art cat
-- bright white outline
-- very simple silhouette
-- separate reusable parts
-- readable expressions for idle, sleep, happy, angry, stretch, and bounce
-
-## Planned First Sprite Parts
-
-The first sprite pieces we should prepare are:
-
-- head
-- body
-- tail
-- left paw
-- right paw
-- open-eyes face
-- closed-eyes face
-- happy face later
-
-These will let us keep the current interaction logic while replacing the temporary vector-drawn cat with real art.
+This repository is currently private and under active development. Licensing and release terms have not yet been finalized.
