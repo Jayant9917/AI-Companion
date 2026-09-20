@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, screen } from "electron";
+﻿import { app, BrowserWindow, ipcMain, screen } from "electron";
 import { existsSync, mkdirSync, readFileSync, watch as watchFile } from "node:fs";
 import os from "node:os";
 import path from "node:path";
@@ -522,12 +522,19 @@ function startWindowRoam() {
       if (nextX <= minX || nextX >= maxX) {
         roamDirection *= -1;
         sendRoamDirectionChanged();
-        window.webContents.send("window-drag:edge", {
-          left: nextX <= minX,
-          right: nextX >= maxX,
-          top: false,
-          bottom: false,
-        });
+        try {
+          const contents = window.webContents;
+          if (!contents.isDestroyed()) {
+            contents.send("window-drag:edge", {
+              left: Boolean(nextX <= minX),
+              right: Boolean(nextX >= maxX),
+              top: false,
+              bottom: false,
+            });
+          }
+        } catch (error) {
+          console.warn("[roam] unable to notify renderer about edge contact", error);
+        }
       }
 
       const targetX = Math.trunc(
@@ -609,10 +616,26 @@ function registerWindowDragIpc() {
       };
 
       if (edgeContact.left || edgeContact.right || edgeContact.top || edgeContact.bottom) {
-        currentWindow.webContents.send("window-drag:edge", edgeContact);
+        try {
+          const contents = currentWindow.webContents;
+          if (!contents.isDestroyed()) {
+            contents.send("window-drag:edge", {
+              left: Boolean(edgeContact.left),
+              right: Boolean(edgeContact.right),
+              top: Boolean(edgeContact.top),
+              bottom: Boolean(edgeContact.bottom),
+            });
+          }
+        } catch (error) {
+          console.warn("[drag] unable to notify renderer about edge contact", error);
+        }
       }
 
-      currentWindow.setPosition(clamped.x, clamped.y);
+      try {
+        currentWindow.setPosition(clamped.x, clamped.y);
+      } catch (error) {
+        console.warn("[drag] unable to update window position", error);
+      }
     }, 16);
 
     dragAnchors.set(event.sender.id, {
@@ -856,3 +879,5 @@ app.on("window-all-closed", () => {
 });
 
 void bootstrap();
+
+
