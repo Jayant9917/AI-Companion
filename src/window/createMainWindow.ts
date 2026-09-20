@@ -1,4 +1,4 @@
-import { BrowserWindow } from "electron";
+﻿import { BrowserWindow } from "electron";
 import path from "node:path";
 import { APP_NAME, DEFAULT_WINDOW_SIZE } from "../shared/constants";
 
@@ -18,6 +18,7 @@ export function createMainWindow(alwaysOnTop = true): BrowserWindow {
     fullscreenable: false,
     hasShadow: false,
     backgroundColor: "#00000000",
+    icon: path.join(__dirname, "../../public/app-icon.png"),
     webPreferences: {
       preload: path.join(__dirname, "../main/preload.js"),
       contextIsolation: true,
@@ -39,3 +40,5 @@ export function createMainWindow(alwaysOnTop = true): BrowserWindow {
 
   return window;
 }
+
+

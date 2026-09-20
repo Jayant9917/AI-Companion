@@ -66,9 +66,11 @@
       "buildResources": "public"
     },
     "win": {
+      "icon": "public/app-icon.png",
       "target": [
         "nsis"
       ]
     }
   }
 }
+

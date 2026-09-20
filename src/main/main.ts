@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, screen } from "electron";
+﻿import { app, BrowserWindow, ipcMain, screen } from "electron";
 import { existsSync, mkdirSync, readFileSync, watch as watchFile } from "node:fs";
 import os from "node:os";
 import path from "node:path";
@@ -753,7 +753,7 @@ function registerControlIpc() {
 }
 
 function createTray() {
-  const trayIconPath = path.join(app.getAppPath(), "public", "tray-icon.svg");
+  const trayIconPath = path.join(app.getAppPath(), "public", "app-icon.png");
   trayController = createAppTray(trayIconPath, {
     quit: () => {
       quitting = true;
@@ -856,3 +856,4 @@ app.on("window-all-closed", () => {
 });
 
 void bootstrap();
+
