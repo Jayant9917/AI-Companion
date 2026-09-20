@@ -1,9 +1,12 @@
 ﻿# Desktop Dev Cat
 <p align="center">
-  <img src="./Companion%201.png" alt="Desktop Dev Cat companion" width="24%" />
-  <img src="./Companion%202.png" alt="Desktop Dev Cat interaction" width="24%" />
-  <img src="./Companion%203.png" alt="Desktop Dev Cat interface" width="24%" />
-  <img src="./Companion%204.png" alt="Desktop Dev Cat feature" width="24%" />
+  <img src="./docs/organized/05-operations-handoff/screenshots/Companion%201.png" alt="Desktop Dev Cat overview" width="100%" />
+</p>
+
+<p align="center">
+  <img src="./docs/organized/05-operations-handoff/screenshots/Companion%202.png" alt="Desktop Dev Cat interaction" width="32%" />
+  <img src="./docs/organized/05-operations-handoff/screenshots/Companion%203.png" alt="Desktop Dev Cat controls" width="32%" />
+  <img src="./docs/organized/05-operations-handoff/screenshots/Companion%204.png" alt="Desktop Dev Cat reminders" width="32%" />
 </p>
 
 > A friendly desktop companion cat for developers, with reminders, desktop interactions, and optional local AI through Ollama.
@@ -124,5 +127,6 @@ The organized documentation index is at [docs/organized/README.md](./docs/organi
 ## License and project status
 
 This repository is under active development and is released under the [MIT License](./LICENSE).
+
 
 
